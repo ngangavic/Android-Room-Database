@@ -7,24 +7,27 @@ import androidx.room.RoomDatabase
 
 
 @Database(entities = arrayOf(Word::class), version = 1, exportSchema = false)
-abstract class WordRoomDatabase: RoomDatabase() {
+abstract class WordRoomDatabase : RoomDatabase() {
+    abstract fun wordDao(): WordDao
 
-    abstract val wordDao:WordDao
-    private var INSTANCE: WordRoomDatabase? = null
+    companion object {
 
-    open fun getDatabase(context: Context): WordRoomDatabase? {
-        if (INSTANCE == null) {
-            synchronized(WordRoomDatabase::class.java) {
-                if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(
-                            context.getApplicationContext(),
-                            WordRoomDatabase::class.java, "word_database"
-                        )
-                        .fallbackToDestructiveMigration()
-                        .build()
-                }
+        private var INSTANCE: WordRoomDatabase? = null
+
+        fun getDatabase(context: Context): WordRoomDatabase {
+            val tempInstance = INSTANCE
+            if (tempInstance != null) {
+                return tempInstance
+            }
+            synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    WordRoomDatabase::class.java,
+                    "word_database"
+                ).build()
+                INSTANCE = instance
+                return instance
             }
         }
-        return INSTANCE
     }
 }

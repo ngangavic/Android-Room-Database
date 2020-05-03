@@ -2,6 +2,7 @@ package com.example.androidroomdatabase
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 
@@ -16,4 +17,12 @@ interface WordDao {
 
     @Query("SELECT * from word_table ORDER BY word ASC")
     fun getAllWords(): LiveData<List<Word>>
+
+    @Query("SELECT * from word_table LIMIT 1")
+    fun getAnyWord(): Array<Word?>?
+
+    @Delete
+    fun deleteWord(word:Word)
+
+
 }

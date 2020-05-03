@@ -27,10 +27,16 @@ class WordListAdapter(context: Context) : RecyclerView.Adapter<WordListAdapter.W
 
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
         holder.wordItemView.text = words[position].word
+        holder.wordItemView.setOnClickListener {
+        }
     }
 
     fun setWords(words: List<Word>) {
         this.words = words
         notifyDataSetChanged()
+    }
+
+    fun getWordAtPosition(position: Int): Word {
+        return words.get(position)
     }
 }

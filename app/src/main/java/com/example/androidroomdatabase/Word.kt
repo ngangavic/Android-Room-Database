@@ -10,7 +10,7 @@ class Word {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "word")
-    var word:String
+    var word: String
 
     constructor(@NonNull word: String) {
         this.word = word

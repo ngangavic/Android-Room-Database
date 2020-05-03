@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Android Room Database</string>
+    <string name="enter_word">Enter word(s)</string>
+    <string name="save_word">Save Word</string>
+    <string name="add_new_word">Add New Word</string>
 </resources>

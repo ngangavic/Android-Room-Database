@@ -3,6 +3,8 @@ package com.example.androidroomdatabase
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -51,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val word = recyclerViewAdapter.getWordAtPosition(viewHolder.adapterPosition)
-                    Toast.makeText(this@MainActivity, "Deleting " + word.word, Toast.LENGTH_LONG)
+                    Toast.makeText(this@MainActivity, "Deleting " + word.word, Toast.LENGTH_SHORT)
                         .show()
                     wordViewModel.delete(word)
                 }
@@ -77,5 +79,21 @@ class MainActivity : AppCompatActivity() {
                 Toast.LENGTH_LONG
             ).show()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_delete -> {
+                wordViewModel.deleteAll()
+                Toast.makeText(this,"All words deleted",Toast.LENGTH_SHORT).show()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

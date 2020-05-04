@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var recyclerViewAdapter: WordListAdapter
     private lateinit var wordViewModel: WordViewModel
     private val newWordActivityRequestCode = 100
+    private val editWordActivityRequestCode = 200
     lateinit var floatingActionButton: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,6 +73,28 @@ class MainActivity : AppCompatActivity() {
                 val word = Word(it)
                 wordViewModel.insert(word)
             }
+            Toast.makeText(
+                applicationContext,
+                "Word saved successfully",
+                Toast.LENGTH_LONG
+            ).show()
+        } else if (requestCode == editWordActivityRequestCode && resultCode == Activity.RESULT_OK) {
+            val word = data?.getStringExtra("EXTRA_REPLY")
+            val id = data?.getStringExtra("EXTRA_REPLY_ID")
+            if (word != null && id != null) {
+                wordViewModel.update(Word(id.toInt(), word))
+                Toast.makeText(
+                    applicationContext,
+                    "Update Successful",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                Toast.makeText(
+                    applicationContext,
+                    "Update Failed",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         } else {
             Toast.makeText(
                 applicationContext,
@@ -90,7 +113,7 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.action_delete -> {
                 wordViewModel.deleteAll()
-                Toast.makeText(this,"All words deleted",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "All words deleted", Toast.LENGTH_SHORT).show()
                 return true
             }
         }

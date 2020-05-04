@@ -1,13 +1,15 @@
 package com.example.androidroomdatabase
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class WordListAdapter(context: Context) : RecyclerView.Adapter<WordListAdapter.WordViewHolder>() {
+class WordListAdapter(var context: Context) :
+    RecyclerView.Adapter<WordListAdapter.WordViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var words = emptyList<Word>()
@@ -28,6 +30,12 @@ class WordListAdapter(context: Context) : RecyclerView.Adapter<WordListAdapter.W
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
         holder.wordItemView.text = words[position].word
         holder.wordItemView.setOnClickListener {
+            val activity = context as MainActivity
+            val intent = Intent(context, NewWordActivity::class.java).putExtra(
+                "EXTRA_WORD",
+                words[position].word
+            ).putExtra("EXTRA_ID", words[position].id.toString())
+            activity.startActivityForResult(intent, 200)
         }
     }
 

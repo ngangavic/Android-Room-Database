@@ -4,4 +4,5 @@
     <string name="save_word">Save Word</string>
     <string name="add_new_word">Add New Word</string>
     <string name="delete_all">Delete All</string>
+    <string name="edit_word">Edit Word</string>
 </resources>

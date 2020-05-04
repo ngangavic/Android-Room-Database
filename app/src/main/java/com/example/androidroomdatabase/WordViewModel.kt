@@ -28,4 +28,9 @@ class WordViewModel(application: Application) : AndroidViewModel(application) {
     fun deleteAll() = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteAll()
     }
+
+    fun update(word: Word) = viewModelScope.launch(Dispatchers.IO) {
+        repository.update(word)
+    }
+
 }

@@ -19,4 +19,9 @@ class WordRepository(private val wordDao: WordDao) {
         wordDao.deleteAll()
     }
 
+    //    fun update(word: String, id: String) {
+    fun update(word: Word) {
+        wordDao.update(word)
+    }
+
 }

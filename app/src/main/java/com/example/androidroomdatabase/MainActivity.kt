@@ -3,12 +3,14 @@ package com.example.androidroomdatabase
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,9 +35,11 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = recyclerViewAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         wordViewModel = ViewModelProvider(this).get(WordViewModel::class.java)
-        wordViewModel.allWords.observe(this, Observer { words ->
-            words?.let { recyclerViewAdapter.setWords(it) }
-        })
+        wordUi(recyclerViewAdapter)
+        Log.d("FACTORY",wordViewModel.pagedWords.value.toString())
+//        wordViewModel.allWords.observe(this, Observer { words ->
+//            words?.let { recyclerViewAdapter.setWords(it) }
+//        })
 
         floatingActionButton.setOnClickListener {
             val intent = Intent(this@MainActivity, NewWordActivity::class.java)
@@ -63,6 +67,13 @@ class MainActivity : AppCompatActivity() {
 
         helper.attachToRecyclerView(recyclerView)
 
+    }
+
+    private fun wordUi(adapter: WordListAdapter) {
+        wordViewModel.pagedWords.observe(this, Observer { words ->
+            words.let { adapter.setWords(it) }
+//            if (words != null) adapter.setWords(words)
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

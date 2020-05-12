@@ -1,6 +1,8 @@
 package com.example.androidroomdatabase
 
 import androidx.lifecycle.LiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 
 
 class WordRepository(private val wordDao: WordDao) {
@@ -19,9 +21,14 @@ class WordRepository(private val wordDao: WordDao) {
         wordDao.deleteAll()
     }
 
-    //    fun update(word: String, id: String) {
     fun update(word: Word) {
         wordDao.update(word)
+    }
+
+    fun getPagedData(): LiveData<PagedList<Word>> {
+        val factory = wordDao.getAllPaged()
+        return LivePagedListBuilder(factory, 10)
+            .build()
     }
 
 }

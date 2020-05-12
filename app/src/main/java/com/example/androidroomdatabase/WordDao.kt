@@ -1,6 +1,7 @@
 package com.example.androidroomdatabase
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 
 @Dao
@@ -20,6 +21,9 @@ interface WordDao {
 
     @Update
     fun update(vararg word: Word)
+
+    @Query("SELECT * FROM word_table ORDER BY word ASC")
+    fun getAllPaged(): DataSource.Factory<Int, Word>
 
 
 }
